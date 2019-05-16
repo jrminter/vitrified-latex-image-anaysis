@@ -13,7 +13,10 @@ The scripts are written in jython
 
 ## Current issues
 
-The watershed segmentation has a problem.
+I'm trying a watershed based on this [over-segmentation](https://imagej.net/Classic_Watershed)
+example.
+
+The watershed segmentation has a problem. I need to figure it out...
 
 ![Left: background subtracted, Middle: Gaussian Blur, Right: Classic Watershed Segmentation](issues/latex-montage.png)
 
