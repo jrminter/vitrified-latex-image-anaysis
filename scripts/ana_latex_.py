@@ -1,23 +1,42 @@
-# ana_latex_.py
-#
-# Analyze an image of soft latex particles embedded in vitrified ice
-#
-#  Modifications
-#   Date      Who  Ver                       What
-# ----------  --- ------  -------------------------------------------------
-# 2019-05-14  JRM 0.1.00  test particle sizing
-#
+"""ana_latex_.py
+
+Analyze an image of soft latex particles embedded in vitrified ice
+
+  Modifications
+    Date      Who  Ver                       What
+  ----------  --- ------  -------------------------------------------------
+  2019-05-14  JRM 0.1.00  test particle sizing
+  2019-05-15  JRM 0.1.10  Changes after suggestions from Bio7 and my own
+                          web searches :) Note the use of the GIT_HOME 
+                          environment variable... Looking at thse results
+                          applying shape classifiers on the results will
+                          be required.
+"""
+
 from org.python.core import codecs
 codecs.setDefaultEncoding('utf-8')
 
 import os
 from ij import IJ
+from ij import WindowManager
 from ij.process import ImageProcessor
 from ij.process.AutoThresholder import Method
 
+# a way to get rid of most windows
+bCleanup = True
+
 # Setup paths
-oriImgPath = "C:/Users/jrminter/Documents/git/vitrified-latex-image-anaysis/data/latex01.tif"
-csvPath =  "C:/Users/jrminter/Documents/git/vitrified-latex-image-anaysis/data/latex01.csv"
+
+gitHome = os.environ['GIT_HOME']
+print(gitHome)
+
+oriImgPath = gitHome + "/vitrified-latex-image-anaysis/data/latex01.tif"
+csvPath =  gitHome + "/vitrified-latex-image-anaysis/data/latex01.csv"
+
+# make sure we can write the latest results
+exists = os.path.isfile(csvPath)
+if exists:
+	os.remove(csvPath)
 
 # load & keep the original image
 IJ.run("Close All")
@@ -40,21 +59,22 @@ impProc.show()
 IJ.run("Duplicate...", "title=analyzed")
 impAna = IJ.getImage()
 
-# The macro recorder provided these two lines:
-# IJ.setAutoThreshold(impAna, "Default");
-# setOption("BlackBackground", false);
-
-# I figured this out by using the Java Docs
-
 ip = impAna.getProcessor()
 ip.setAutoThreshold(Method.Default, False) 
 IJ.run("Convert to Mask")
 
-"""
-Note that I tried to re-direct overlay to the processed image. 
-It does not redirect. Where did I go wrong? Where did it go???
-"""
-
 IJ.run("Set Measurements...", "area mean centroid center perimeter fit shape display add redirect=processed decimal=3")
-IJ.run(impAna, "Analyze Particles...", "display exclude summarize")
+# suggestion by Bio7
+IJ.run(impAna, "Analyze Particles...", "display exclude summarize add")
+IJ.run(impProc, "From ROI Manager", "")
+
+IJ.selectWindow("Results")
 IJ.saveAs("Results", csvPath)
+
+if bCleanup:
+	impOri.close()
+	impAna.close()
+	IJ.selectWindow("Summary")
+	IJ.run("Close")
+	IJ.selectWindow("ROI Manager")
+	IJ.run("Close");
