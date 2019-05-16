@@ -15,7 +15,7 @@ The scripts are written in jython
 
 The watershed segmentation has a problem.
 
-![split latex particles](issues/latex-blur-watershed.png)
+![Left: background subtracted, Middle: Gaussian Blur, Right: Classic Watershed Segmentation](issues/latex-montage.png)
 
 
 
