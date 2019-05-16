@@ -7,15 +7,15 @@ by cryo-TEM. The objective is to subtract the background (the ice has thickness
 fluctuations) and then segment each latex particle. We will use shape classifiers
 (circularity and aspect ratio) to select the isolated particles.
 
-## The script
+## The scripts
 
-The script was written in jython
+The scripts are written in jython
 
-## The issues
+## Current issues
 
-1. The particles are not redirected to the `processed` image as directed,
-I do not see the error.
+The watershed segmentation has a problem.
 
-2. I'd like to split some of the overlaps using a watershed, but it
-results in thin lines between the particle. I must be missing something. 
+![split latex particles](issues/latex-blur-watershed.png)
+
+
 
