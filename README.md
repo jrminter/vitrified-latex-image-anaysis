@@ -18,7 +18,9 @@ example.
 
 The watershed segmentation has a problem. I need to figure it out...
 
-![Left: background subtracted, Middle: Gaussian Blur, Right: Classic Watershed Segmentation](issues/latex-montage.png)
+![](issues/latex-montage.png)
+
+**Left**: background subtracted, **Middle**: Gaussian Blur, **Right**: Classic Watershed Segmentation
 
 
 
